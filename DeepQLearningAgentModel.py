@@ -198,7 +198,7 @@ class DeepQLearningAgentModel(nn.Module):
         #, but pytorch uses channel first
         #Need to change order to take channel difference
         #into account
-        x = x.permute(0, 3, 1, 2)
+        x = x.permute(0, 3,    1, 2)
         x = self.layers(x)
         x = self.action_values(x)
         return x

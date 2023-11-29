@@ -582,11 +582,11 @@ class DeepQLearningAgent(Agent):
             device = torch.device("cuda")
 
         else:
-            device = torch.device("cpu")
+            device = torch.device("cpu")-
 
         s_normalized = self._normalize_board(s)
         s_torch = torch.tensor(s_normalized, dtype=torch.float32).to(device)
-        target_torch = torch.tensor(target, dtype=torch.long).to(device)
+        target_torch = torch.tensor(target, dtype=torch.Long).to(device)
 
         loss = self.loss(torch.Tensor(self._model(s_torch)), target_torch)
         self.optimizer.zero_grad()
