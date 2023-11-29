@@ -19,7 +19,7 @@ import json
 
 # some global variables
 
-version = 'v17.1'
+version = 'v15.1'
 
 # get training configurations
 with open('model_config/{:s}.json'.format(version), 'r') as f:
@@ -38,13 +38,13 @@ log_frequency = 500
 games_eval = 8
 
 # setup the agent
-agent = DeepQLearningAgent(board_size=board_size, frames=frames, n_actions=n_actions,
-                         buffer_size=buffer_size, version=version)
+#agent = DeepQLearningAgent(board_size=board_size, frames=frames, n_actions=n_actions,
+#                        buffer_size=buffer_size, version=version)
 
 #agent = PolicyGradientAgent(board_size=board_size, frames=frames, n_actions=n_actions,
- #      buffer_size=2000, version=version)
-#agent = AdvantageActorCriticAgent(board_size=board_size, frames=frames, n_actions=n_actions,
-#                                buffer_size=10000, version=version)
+#       buffer_size=2000, version=version)
+agent = AdvantageActorCriticAgent(board_size=board_size, frames=frames, n_actions=n_actions,
+                                buffer_size=10000, version=version)
 # agent.print_models()
 
 # check in the same order as class hierarchy
@@ -153,7 +153,7 @@ for index in tqdm(range(episodes)):
         
         model_logs['iteration'].append(index+1)
         model_logs['reward_mean'].append(round(int(current_rewards)/current_games, 2))
-        # model_logs['reward_dev'].append(round(np.std(current_rewards), 2))
+#        model_logs['reward_dev'].append(round(np.std(current_rewards), 2))
         model_logs['length_mean'].append(round(int(current_lengths)/current_games, 2))
         model_logs['games'].append(current_games)
         model_logs['loss'].append(0.0)

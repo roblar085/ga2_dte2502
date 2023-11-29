@@ -645,7 +645,7 @@ class PolicyGradientAgent(DeepQLearningAgent):
                                     version=version)
         model = self._agent_model()
         model.to_device("cuda")
-        self._actor_optimizer = optim.Adam(model.parameters(),lr=1e-6)
+        self.optimizer = optim.Adam(model.parameters(),lr=1e-6)
 
     def _agent_model(self):
         """Returns the model which evaluates prob values for a given state input
