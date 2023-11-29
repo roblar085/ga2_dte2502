@@ -341,6 +341,7 @@ class DeepQLearningAgent(Agent):
             model = self._model
 
         res = model(torch.Tensor(board))
+        #Because of AdvantageActorCriticAgentModel
         if isinstance(res, tuple):
             model1,model2 =  res
             model1, model2 = model1.cpu().detach(),model2.cpu().detach()
@@ -715,7 +716,7 @@ class PolicyGradientAgent(DeepQLearningAgent):
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-        los_res = np.round(Tensor.cpu(loss).detach().numpy(),5)
+        los_res = Tensor.cpu(loss).detach().numpy()
         return los_res[0] if len(los_res) == 1 else los_res
 
 

@@ -22,7 +22,7 @@ with open('model_config/{:s}.json'.format(version), 'r') as f:
     n_actions = m['n_actions']
     obstacles = bool(m['obstacles'])
 
-iteration_list = [200000]
+iteration_list = [265500]
 max_time_limit = 398
 
 # setup the environment
@@ -42,8 +42,8 @@ agent = DeepQLearningAgent(board_size=board_size, frames=frames,
 
 for iteration in iteration_list:
     agent.load_model(file_path='models/{:s}'.format(version), iteration=iteration)
-    frames_min = 19990
-    frames_max = 20000
+    frames_min = 1
+    frames_max = 5
     for i in range(frames_min,frames_max):
         visualize_game(env, agent,
             path='images/game_visual_{:s}_{:d}_14_ob_{:d}.mp4'.format(version, iteration, i),
