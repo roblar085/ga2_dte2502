@@ -435,8 +435,7 @@ class DeepQLearningAgent(Agent):
         # the last dense layers should be trainable
         for s in ['action_prev_dense', 'action_values']:
             self._model.get_layer(s).trainable = True
-        self._model.compile(optimizer=self._model.optimizer,
-                            loss=self._model.loss)
+
 
     def get_action_proba(self, board, values=None):
         """Returns the action probability values using the DQN model

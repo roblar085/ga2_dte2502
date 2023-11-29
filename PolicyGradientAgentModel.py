@@ -14,16 +14,16 @@ class PolicyGradientAgentModel(nn.Module):
         self.board_size = board_size
         self.n_frames = n_frames
 
-        self.policy = nn.Sequential(
+        self.layers = nn.Sequential(
             nn.Conv2d(n_frames, 16, kernel_size=4, stride=1, padding=0),
             nn.ReLU(),
             nn.Conv2d(16, 32, kernel_size=4, stride=1, padding=0),
             nn.ReLU(),
             nn.Flatten(),
             nn.Linear(32 * 4 * 4, 64),
-            nn.ReLU(),
-            nn.Linear(64, n_actions)
+            nn.ReLU()
         )
+        self.action_logits = nn.Linear(64, n_actions)
     def to_device(self, device):
         # Move the entire model to the specified device
         self.to(device)
@@ -56,5 +56,6 @@ class PolicyGradientAgentModel(nn.Module):
         x = x.to(device)
         self.to_device(device)
         x = x.permute(0, 3, 1, 2)
-        out = self.policy(x)
+        x = self.layers(x)
+        out = self.action_logits(x)
         return out

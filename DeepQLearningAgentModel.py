@@ -17,7 +17,7 @@ class DeepQLearningAgentModel(nn.Module):
 
         self.board_size = board_size
         self.n_frames   = n_frames
-        self.action_values = nn.Sequential(
+        self.layers = nn.Sequential(
 
         )
 
@@ -42,19 +42,19 @@ class DeepQLearningAgentModel(nn.Module):
                     padding = params['padding']
 
                 if padding is  None:
-                    self.action_values.append(
+                    self.layers.append(
                         nn.Conv2d(in_channels, filters, kernel_size=(kernel_size[0], kernel_size[1]), stride=1))
                     #Asuming kernel_size[0] = kernel_size[1]
                     pre_kernel = kernel_size[0]
                 else:
 
-                    self.action_values.append(nn.Conv2d(in_channels, filters, kernel_size=(kernel_size[0], kernel_size[1]), stride=1,padding=padding))
+                    self.layers.append(nn.Conv2d(in_channels, filters, kernel_size=(kernel_size[0], kernel_size[1]), stride=1,padding=padding))
                     in_channels = filters
                     # Asuming kernel_size[0] = kernel_size[1]
                     pre_kernel = kernel_size[0]
                 if(activation_fun=='relu'):
 
-                    self.action_values.append(nn.ReLU())
+                    self.layers.append(nn.ReLU())
                 elif(activation_fun=='sigmoid'):
 
                     self.action_values.append(nn.Sigmoid())
@@ -65,7 +65,7 @@ class DeepQLearningAgentModel(nn.Module):
                     #as input dimension; do not change input
                     self.pre_is_padded = True
             if ('Flatten' in layer):
-                self.action_values.append(nn.Flatten())
+                self.layers.append(nn.Flatten())
 
                 if  self.pre_is_padded:
                     #Because we did pad, resulting in output dim = input dim, we didnt
@@ -81,18 +81,25 @@ class DeepQLearningAgentModel(nn.Module):
                 in_channels = in_channels
                 activation_fun = params['activation']
                 units = params['units']
-                self.action_values.append( nn.Linear(in_channels,units))
+
+                #name = params['name']
+                #if(name=="action_prev_dense"):
+                   # self.action_prev_dense = nn.Linear(in_channels,units)
+                #elif(name=="action_values"):
+                    #self.action_values = nn.Linear(in_channels,units)
+                #else:
+                self.layers.append( nn.Linear(in_channels,units))
 
                 if (activation_fun == 'relu'):
 
-                    self.action_values.append(nn.ReLU())
+                    self.layers.append(nn.ReLU())
                 elif (activation_fun == 'sigmoid'):
 
-                    self.action_values.append(nn.Sigmoid())
+                    self.layers.append(nn.Sigmoid())
                 in_channels = units
 
 
-        self.action_values.append(nn.Linear(in_channels, n_actions))
+        self.action_values = nn.Linear(in_channels, n_actions)
 
 
     def get_weights(self):
@@ -103,12 +110,16 @@ class DeepQLearningAgentModel(nn.Module):
            :return:
         """
         weights = []
+        for layer in self.layers.children():
+            if 'weight' in layer.state_dict():
+                weights.append(layer.state_dict()['weight'])
+            if 'bias' in layer.state_dict():
+                weights.append(layer.state_dict()['bias'])
         for layer in self.action_values.children():
             if 'weight' in layer.state_dict():
                 weights.append(layer.state_dict()['weight'])
             if 'bias' in layer.state_dict():
                 weights.append(layer.state_dict()['bias'])
-
         return weights
 
     def load_weights(self, file):
@@ -152,14 +163,22 @@ class DeepQLearningAgentModel(nn.Module):
         :return:
         """
         weight_pos = 0
-        for idx,layer in enumerate(self.action_values.children()):
+        for idx,layer in enumerate(self.layers.children()):
+
             if 'weight' in layer.state_dict():
                 layer.state_dict()['weight'] = weights[weight_pos]
                 weight_pos = weight_pos + 1
             if 'bias' in layer.state_dict():
                 layer.state_dict()['bias'] = weights[weight_pos]
                 weight_pos = weight_pos + 1
+        for idx, layer in enumerate(self.action_values.children()):
 
+            if 'weight' in layer.state_dict():
+                layer.state_dict()['weight'] = weights[weight_pos]
+                weight_pos = weight_pos + 1
+            if 'bias' in layer.state_dict():
+                layer.state_dict()['bias'] = weights[weight_pos]
+                weight_pos = weight_pos + 1
 
     def to_device(self, device):
 
@@ -180,5 +199,6 @@ class DeepQLearningAgentModel(nn.Module):
         #Need to change order to take channel difference
         #into account
         x = x.permute(0, 3, 1, 2)
-        layers = self.action_values(x)
-        return layers
+        x = self.layers(x)
+        x = self.action_values(x)
+        return x
