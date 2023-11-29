@@ -11,7 +11,7 @@ import json
 import matplotlib
 
 # some global variables
-version = 'v15.5'
+version = 'v17.1'
 
 with open('model_config/{:s}.json'.format(version), 'r') as f:
     m = json.loads(f.read())
@@ -22,7 +22,7 @@ with open('model_config/{:s}.json'.format(version), 'r') as f:
     n_actions = m['n_actions']
     obstacles = bool(m['obstacles'])
 
-iteration_list = [1500]
+iteration_list = [200000]
 max_time_limit = 398
 
 # setup the environment
@@ -33,18 +33,19 @@ n_actions = env.get_num_actions()
 
 # setup the agent
 # K.clear_session()
-#agent = DeepQLearningAgent(board_size=board_size, frames=frames,
-#                           n_actions=n_actions, buffer_size=10, version=version)
+agent = DeepQLearningAgent(board_size=board_size, frames=frames,
+                           n_actions=n_actions, buffer_size=10, version=version)
 #agent = PolicyGradientAgent(board_size=board_size, frames=frames, n_actions=n_actions, buffer_size=10)
-agent = AdvantageActorCriticAgent(board_size=board_size, frames=frames, n_actions=n_actions, buffer_size=10)
+#agent = AdvantageActorCriticAgent(board_size=board_size, frames=frames, n_actions=n_actions, buffer_size=10)
 # agent = HamiltonianCycleAgent(board_size=board_size, frames=frames, n_actions=n_actions, buffer_size=10)
 # agent = BreadthFirstSearchAgent(board_size=board_size, frames=frames, n_actions=n_actions, buffer_size=10)
 
 for iteration in iteration_list:
     agent.load_model(file_path='models/{:s}'.format(version), iteration=iteration)
-    frames = 10
-    for i in range(frames):
+    frames_min = 19990
+    frames_max = 20000
+    for i in range(frames_min,frames_max):
         visualize_game(env, agent,
             path='images/game_visual_{:s}_{:d}_14_ob_{:d}.mp4'.format(version, iteration, i),
-            debug=True, animate=True, fps=12)
+            debug=False, animate=True, fps=12)
         print(f"{i}/{frames}")

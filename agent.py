@@ -453,9 +453,17 @@ class DeepQLearningAgent(Agent):
         model_outputs : Numpy array
             Action probabilities, shape is board.shape[0] * n_actions
         """
+        #[CHANGE] Model is splitted, instead of threating it as a tuple
+        #Calculation mimics what was done before.
+        #Model 2 has only 1 value per row, so therfore axis=1
+        #in origianl (and therfore in this) calculation
+        #Model 1 has one value per action.
+        #It seems one want to take difference with max state_value
+        #achived, and divide with sum of those
+        #Furthermore values are clipped between -10 and 10, in original code,
+        #for some reason.
         model1,model2 = self._get_model_outputs(board, self._model)
-        # subtracting max and taking softmax does not change output
-        # do this for numerical stability
+
         model1 = np.clip(model1, -10, 10)
         model2 = np.clip(model2, -10, 10)
         model1 = model1 - model2.max(axis=1).reshape((-1, 1))
@@ -565,7 +573,10 @@ class DeepQLearningAgent(Agent):
         # we bother only with the difference in reward estimate at the selected action
         target = (1 - a) * target + a * discounted_reward
 
-        # fit
+        # [Change]
+        # This part of trainin scheme is done differntly, due to lack
+        # of same functions as in tensor flow
+
         device = torch.device("cpu")
 
         if torch.cuda.is_available():
@@ -582,7 +593,7 @@ class DeepQLearningAgent(Agent):
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-        return Tensor.cpu(loss).detach().numpy()
+        return np.round(Tensor.cpu(loss).detach().numpy(),5)
 
     def update_target_net(self):
         """Update the weights of the target network, which is kept
@@ -705,7 +716,7 @@ class PolicyGradientAgent(DeepQLearningAgent):
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-        los_res = Tensor.cpu(loss).detach().numpy()
+        los_res = np.round(Tensor.cpu(loss).detach().numpy(),5)
         return los_res[0] if len(los_res) == 1 else los_res
 
 
@@ -729,6 +740,8 @@ class AdvantageActorCriticAgent(PolicyGradientAgent):
                                     n_actions=n_actions, use_target_net=use_target_net,
                                     version=version)
 
+        #[CHANGED]
+        #Optmizer and model intialization had to be done diffrent
         self.model_logits,  self.model_full, self.model_values = self._agent_model()
         self.model_logits._optimizer = torch.optim.RMSprop(self.model_logits.parameters(), lr=5e-4)
         self.model_full._optimizer = torch.optim.RMSprop(self.model_full.parameters(), lr=5e-4)
@@ -906,7 +919,7 @@ class AdvantageActorCriticAgent(PolicyGradientAgent):
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-        loss = [loss.detach().numpy(), actor_loss.detach().numpy(), critic_loss.detach().numpy()]
+        loss = [np.round(loss.detach().numpy(),5), np.round(actor_loss.detach().numpy(),5), np.round(critic_loss.detach().numpy(),5)]
         return loss[0] if len(loss) == 1 else loss
 
 
@@ -1132,27 +1145,25 @@ class SupervisedLearningAgent(DeepQLearningAgent):
         """
         s, a, _, _, _, _ = self._buffer.sample(self.get_buffer_size())
         normalized_s = self._normalize_board(s)
-        loss = 0.0
-        # fit using the actions as assumed to be best
-        for epoch in range(epochs):
-            # Forward pass
-            predictions = normalized_s(s)
 
-            # Compute the loss
-            loss = self.loss(predictions, a)
+        #[Change]
+        #Training scheme is done differntly, due to lack
+        #of same functions as in tensor flow
+        if torch.cuda.is_available():
+            device = torch.device("cuda")
 
-            # Backward pass and optimization
-            self.optimizer.zero_grad()
-            loss.backward()
-            self.optimizer.step()
+        else:
+            device = torch.device("cpu")
 
-            # Print the loss for monitoring
-            print(f'Epoch {epoch + 1}/{epochs}, Loss: {loss.item()}')
+        s_torch = torch.Tensor(normalized_s).to(device)
+        a_torch = torch.Tensor(a).to(device)
+        pred_torch = torch.Tensor(self._model(s_torch))
+        loss = self.loss( pred_torch, a_torch)
+        self.optimizer.zero_grad()
+        loss.backward()
+        self.optimizer.step()
 
-
-        loss = round(loss.item(), 5)
-
-        return loss
+        return np.round(Tensor.cpu(loss).detach().numpy(),5)
 
     def get_max_output(self):
         """Get the maximum output of Q values from the model

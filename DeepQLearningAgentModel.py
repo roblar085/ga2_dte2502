@@ -10,7 +10,9 @@ from torch import Tensor
 
 
 class DeepQLearningAgentModel(nn.Module):
+
     def __init__(self, board_size, n_frames, n_actions, m):
+
         super(DeepQLearningAgentModel, self).__init__()
 
         self.board_size = board_size
@@ -24,10 +26,13 @@ class DeepQLearningAgentModel(nn.Module):
 
         pre_kernel = 0
         self.n_actions = n_actions
+        self.pre_is_padded = False
 
+        #self.action_values is feeded with layers with corresponding configuration,
+        #given
         for layer in m['model']:
             params = m['model'][layer]
-            print(layer)
+
             if (layer.startswith("Conv2D")):
                 kernel_size    = params['kernel_size']
                 activation_fun = params['activation']
@@ -39,12 +44,13 @@ class DeepQLearningAgentModel(nn.Module):
                 if padding is  None:
                     self.action_values.append(
                         nn.Conv2d(in_channels, filters, kernel_size=(kernel_size[0], kernel_size[1]), stride=1))
-
+                    #Asuming kernel_size[0] = kernel_size[1]
                     pre_kernel = kernel_size[0]
                 else:
 
                     self.action_values.append(nn.Conv2d(in_channels, filters, kernel_size=(kernel_size[0], kernel_size[1]), stride=1,padding=padding))
-                    in_channels = in_channels - filters
+                    in_channels = filters
+                    # Asuming kernel_size[0] = kernel_size[1]
                     pre_kernel = kernel_size[0]
                 if(activation_fun=='relu'):
 
@@ -52,22 +58,31 @@ class DeepQLearningAgentModel(nn.Module):
                 elif(activation_fun=='sigmoid'):
 
                     self.action_values.append(nn.Sigmoid())
-                if(padding=="same"):
-
-                    in_channels =filters
-                else:
+                if(padding !="same"):
                     in_channels = filters
+                else:
+                    #Padding same, results in output dimension is same
+                    #as input dimension; do not change input
+                    self.pre_is_padded = True
             if ('Flatten' in layer):
                 self.action_values.append(nn.Flatten())
-                print(in_channels)
-                in_channels = in_channels*in_channels*pre_kernel*pre_kernel//8
 
+                if  self.pre_is_padded:
+                    #Because we did pad, resulting in output dim = input dim, we didnt
+                    #care about effects of kernels
+                    # Found by experiment, to make dimention work
+                    in_channels = in_channels * (n_actions * n_actions)
+                    self.pre_is_padded = False
+                else:
+                    #Found by experiment, to make dimention work
+                    in_channels = (in_channels * pre_kernel )* (in_channels * pre_kernel) // 8
 
             if (layer.startswith("Dense")):
                 in_channels = in_channels
                 activation_fun = params['activation']
                 units = params['units']
                 self.action_values.append( nn.Linear(in_channels,units))
+
                 if (activation_fun == 'relu'):
 
                     self.action_values.append(nn.ReLU())
@@ -81,6 +96,12 @@ class DeepQLearningAgentModel(nn.Module):
 
 
     def get_weights(self):
+        """
+           As I understand, one need this to make clones
+           of this agent
+           :param weights:
+           :return:
+        """
         weights = []
         for layer in self.action_values.children():
             if 'weight' in layer.state_dict():
@@ -91,7 +112,13 @@ class DeepQLearningAgentModel(nn.Module):
         return weights
 
     def load_weights(self, file):
+        """
+        Used to restore a previouse trained state
+        :param file:
+        :return:
+        """
         state_dict = {}
+        #Load weight (weight  and bias) for each layer
         with h5py.File(file, 'r') as hdf5_file:
                 for key in hdf5_file.keys():
 
@@ -101,6 +128,11 @@ class DeepQLearningAgentModel(nn.Module):
         self.load_state_dict(state_dict)
 
     def save_weights(self,file):
+        """
+             Used to save a  trained state
+             :param file:
+             :return:
+         """
         file_path = Path(file)
         if(not file_path.exists()):
             file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -113,6 +145,12 @@ class DeepQLearningAgentModel(nn.Module):
                 hdf5_file.create_dataset(name, data=Tensor.cpu(param.data).numpy())
 
     def set_weights(self,weights):
+        """
+        As I understand, one need this to make clones
+        of this agent
+        :param weights:
+        :return:
+        """
         weight_pos = 0
         for idx,layer in enumerate(self.action_values.children()):
             if 'weight' in layer.state_dict():
@@ -124,7 +162,7 @@ class DeepQLearningAgentModel(nn.Module):
 
 
     def to_device(self, device):
-        # Move the entire model to the specified device
+
         self.to(device)
 
     def forward(self, x):
@@ -137,6 +175,10 @@ class DeepQLearningAgentModel(nn.Module):
             device = torch.device("cpu")
         x = x.to(device)
         self.to_device(device)
+        #Because configuration uses "channel last"
+        #, but pytorch uses channel first
+        #Need to change order to take channel difference
+        #into account
         x = x.permute(0, 3, 1, 2)
         layers = self.action_values(x)
         return layers
