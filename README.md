@@ -16,5 +16,6 @@ https://github.com/DragonWarrior15/snake-rl
 
 ![image](https://github.com/roblar085/ga2_dte2502/assets/113696605/65b504cc-a74e-4f57-9533-70917c78c45d)
 
-<h2>To train</h2>
+<h2>To train:</h2>
+
 ![image](https://github.com/roblar085/ga2_dte2502/assets/113696605/5c38393d-b8b4-4005-9995-152e29964dcf)
