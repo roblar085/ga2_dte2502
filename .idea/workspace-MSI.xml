@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="71cc0052-d510-48f1-9da2-e5ddfa5d8cbc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/AdvantageActorCriticAgentModel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DeepQLearningAgentModel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PolicyGradientAgentModel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SupervisedLearningAgentModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_environment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_visualization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/game_visual_v17.1_163500_14_ob_3.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/images/game_visual_v17.1_163500_14_ob_3.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_config/v15.3.json" beforeDir="false" afterPath="$PROJECT_DIR$/model_config/v15.3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_logs/v15.1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/model_logs/v15.1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_logs/v17.1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/model_logs/v17.1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/v15.1/model_188000.h5" beforeDir="false" afterPath="$PROJECT_DIR$/models/v15.1/model_188000.h5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/v17.1/model_163500.h5" beforeDir="false" afterPath="$PROJECT_DIR$/models/v17.1/model_163500.h5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training.py" beforeDir="false" afterPath="$PROJECT_DIR$/training.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/venv/Lib/site-packages/matplotlib/animation.py" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2YcGv3VfInJA9Z8yDWokEnyH0yN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="71cc0052-d510-48f1-9da2-e5ddfa5d8cbc" name="Changes" comment="" />
+      <created>1700817682150</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1700817682150</updated>
+      <workItem from="1700817685428" duration="20531000" />
+      <workItem from="1700925908909" duration="18884000" />
+      <workItem from="1700982836439" duration="16168000" />
+      <workItem from="1701021694732" duration="26023000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/snake_rl$comparison_plots.coverage" NAME="comparison_plots Coverage Results" MODIFIED="1700995601100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/snake_rl$training.coverage" NAME="training Coverage Results" MODIFIED="1701103076923" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/snake_rl$AdvantageActorCriticAgentModel.coverage" NAME="AdvantageActorCriticAgentModel Coverage Results" MODIFIED="1700927391385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/snake_rl$PolicyGradientAgentModel.coverage" NAME="PolicyGradientAgentModel Coverage Results" MODIFIED="1701036817384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/snake_rl$animation.coverage" NAME="animation Coverage Results" MODIFIED="1700996452349" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv/Lib/site-packages/matplotlib" />
+    <SUITE FILE_PATH="coverage/snake_rl$agent.coverage" NAME="agent Coverage Results" MODIFIED="1701035085068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/snake_rl$SupervisedLearningAgentModel.coverage" NAME="SupervisedLearningAgentModel Coverage Results" MODIFIED="1701029064269" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/snake_rl$supervised_training.coverage" NAME="supervised_training Coverage Results" MODIFIED="1700995217756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/snake_rl$game_environment.coverage" NAME="game_environment Coverage Results" MODIFIED="1700995478701" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/snake_rl$DeepQLearningAgentModel.coverage" NAME="DeepQLearningAgentModel Coverage Results" MODIFIED="1701032544825" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/snake_rl$game_visualization.coverage" NAME="game_visualization Coverage Results" MODIFIED="1701038732941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
