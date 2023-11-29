@@ -10,7 +10,7 @@ Extra dependecncies, for reading and writing files:
 <li>pathlib</li>
 </ul>
 
-==To run==
+<h2>To run:</h2>
 
 ![image](https://github.com/roblar085/ga2_dte2502/assets/113696605/fddd7c56-d32b-46fe-83ef-4b6fc867d361)
 
